@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bubur Inn | Congee & Dumplings Authentic Surabaya</title>
+  <meta name="description" content="Nikmati kehangatan bubur classic dan kelezatan dumpling pan-seared buatan rumah terbaik di G Walk Citraland Surabaya. Rasakan cita rasa autentik.">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Bubur Inn | Congee & Dumplings Surabaya">
+  <meta property="og:description" content="Kehangatan bubur classic dan kelezatan dumpling pan-seared buatan rumah terbaik di G Walk Citraland Surabaya.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://buburinn.com">
+  
+  <!-- Tailwind CSS v4 -->
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  
+  <!-- Google Fonts: Caudex & Space Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caudex:ital,wght@0,400;0,700;1,400;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Design Tokens from Open-Design MCP Extraction */
+    :root {
+      --font-serif: 'Caudex', Georgia, serif;
+      --font-mono: 'Space Mono', monospace;
+      --color-cream: #faf7f2;
+      --color-charcoal: #2b2621;
+      --color-crimson: #800000;
+      
+      /* Density mode token */
+      --menu-gap: 2rem;
+      --menu-padding: 2rem;
+    }
+    
+    body {
+      background-color: var(--color-cream);
+      color: var(--color-charcoal);
+    }
+
+    .font-serif-custom {
+      font-family: var(--font-serif);
+    }
+
+    .font-mono-custom {
+      font-family: var(--font-mono);
+    }
+
+    /* Density Mode Reactive Rules */
+    .density-compact {
+      --menu-gap: 1rem;
+      --menu-padding: 1rem;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--color-cream);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-crimson);
+      border-radius: 4px;
+    }
+
+    /* Dialog backdrop blur & animations */
+    dialog::backdrop {
+      background-color: rgba(26, 21, 16, 0.7);
+      backdrop-filter: blur(8px);
+      transition: display 0.3s allow-discrete, overlay 0.3s allow-discrete, background-color 0.3s ease-out;
+    }
+
+    dialog[open]::backdrop {
+      background-color: rgba(26, 21, 16, 0.75);
+      @starting-style {
+        background-color: rgba(26, 21, 16, 0);
+      }
+    }
+
+    dialog {
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.3s ease-out, transform 0.3s ease-out, display 0.3s allow-discrete, overlay 0.3s allow-discrete;
+    }
+
+    dialog[open] {
+      opacity: 1;
+      transform: scale(1);
+      @starting-style {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+    }
+
+    /* Dynamic Menu Categories Accordion */
+    details[name="menu-category"] summary::-webkit-details-marker {
+      display: none;
+    }
+    
+    details[name="menu-category"] {
+      border-bottom: 1px solid rgba(128, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    details[name="menu-category"][open] {
+      background-color: white;
+      box-shadow: 0 4px 20px -2px rgba(43, 38, 33, 0.05);
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+
+  <!-- Header / Navigation -->
+  <header class="sticky top-0 z-40 w-full border-b border-orange-900/10 bg-white/80 backdrop-blur-md">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+      <a href="#" class="flex items-center space-x-2">
+        <span class="font-serif-custom text-2xl font-bold tracking-wide text-red-900">BUBUR INN <span class="text-xs font-normal text-amber-700">茶餐廳</span></span>
+      </a>
+      <nav class="hidden md:flex items-center space-x-8 font-mono-custom text-sm font-semibold tracking-wider">
+        <a href="#about" class="text-stone-900 hover:text-red-800 transition">OUR STORY</a>
+        <a href="#menu" class="text-stone-900 hover:text-red-800 transition">MENU</a>
+        <a href="#location" class="text-stone-900 hover:text-red-800 transition">LOCATION</a>
+      </nav>
+      <div class="flex items-center space-x-4">
+        <button id="cart-toggle-btn" class="relative flex items-center space-x-2 rounded-full bg-red-900 px-4 py-2 text-white font-mono-custom text-xs hover:bg-red-800 transition shadow-md cursor-pointer">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          <span class="font-bold">CART (<span id="cart-count">0</span>)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/70 via-red-50/30 to-orange-100/30 py-24 md:py-32">
+    <div class="mx-auto max-w-7xl px-6 grid md:grid-cols-12 gap-12 items-center">
+      <div class="md:col-span-7 space-y-6 text-left">
+        <div class="inline-flex items-center space-x-2 rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-mono-custom tracking-wider text-red-900">
+          <span>📍 SURABAYA, INDONESIA</span>
+        </div>
+        <h1 class="font-serif-custom text-5xl md:text-7xl font-bold tracking-tight text-stone-900 leading-tight">
+          Warmth in Every <span class="underline decoration-red-700/20">Bowl</span>, Delight in Every Bite.
+        </h1>
+        <p class="text-lg text-stone-900/80 leading-relaxed max-w-xl">
+          Bubur Inn (茶餐廳) brings you slow-cooked, silky smooth Cantonese-style congee and delicious pan-seared chicken dumplings. Comfort food crafted with passion, served in Surabaya.
+        </p>
+        <div class="flex flex-wrap gap-4 pt-4">
+          <a href="#menu" class="rounded-lg bg-red-900 px-6 py-3 text-white font-mono-custom text-sm font-semibold hover:bg-red-800 transition shadow-lg cursor-pointer">
+            EXPLORE THE MENU
+          </a>
+          <a href="https://gofood.co.id/jakarta/restaurant/ad5e4167-ccca-4417-ae7c-ed39204f7c6d?as=gmaps" target="_blank" class="rounded-lg bg-red-50 border border-red-200 px-6 py-3 text-red-950 font-mono-custom text-sm font-semibold hover:bg-red-100 transition shadow-md cursor-pointer flex items-center gap-2">
+            🛵 ORDER ON GOFOOD
+          </a>
+          <a href="#location" class="rounded-lg border border-red-900/30 bg-white/50 px-6 py-3 text-stone-900 font-mono-custom text-sm font-semibold hover:bg-white/95 transition shadow-sm cursor-pointer">
+            VISIT US TODAY
+          </a>
+        </div>
+      </div>
+      <div class="md:col-span-5 relative">
+        <div class="relative mx-auto max-w-[400px] md:max-w-none rounded-2xl border-4 border-white shadow-2xl overflow-hidden aspect-[4/3] group">
+          <img src="assets/congee.jpg" alt="A steaming bowl of premium Cantonese congee at Bubur Inn" class="h-full w-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-6">
+            <div>
+              <p class="font-serif-custom text-white text-xl font-bold">The Classic Congee</p>
+              <p class="font-mono-custom text-xs text-orange-200">IDR 20,000</p>
+            </div>
+          </div>
+        </div>
+        <!-- Decorative Badge -->
+        <div class="absolute -bottom-6 -left-6 bg-amber-500 text-white p-4 rounded-xl shadow-xl flex flex-col items-center justify-center font-mono-custom border-2 border-white">
+          <span class="text-xs">SPECIALTY</span>
+          <span class="text-lg font-bold">CONGEE</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Story / About Section -->
+  <section id="about" class="py-20 bg-white border-y border-stone-900/5">
+    <div class="mx-auto max-w-7xl px-6">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="space-y-6">
+          <span class="font-mono-custom text-xs tracking-widest text-red-900 font-bold">OUR HERITAGE</span>
+          <h2 class="font-serif-custom text-4xl font-bold text-stone-900">Slow Brewed. Lovingly Handcrafted.</h2>
+          <p class="text-stone-900/80 leading-relaxed">
+            Inspired by the authentic congee restaurants of Hong Kong, Bubur Inn focuses on the traditional art of slow-cooking congee. Our broth base is simmered for over 4 hours to achieve that velvety Cantonese texture that melts on your palate. 
+          </p>
+          <p class="text-stone-900/80 leading-relaxed">
+            Paired with fresh, pan-seared dumplings packed with chicken and crunchy cabbage, our menu is kept simple and focused. We select each ingredient carefully to guarantee warmth, texture, and taste in every single serving.
+          </p>
+          <div class="grid grid-cols-2 gap-6 pt-4 border-t border-orange-100">
+            <div>
+              <p class="font-serif-custom text-3xl font-bold text-red-900">4+ Hours</p>
+              <p class="font-mono-custom text-xs text-stone-900/60 mt-1">Congee Simmer Time</p>
+            </div>
+            <div>
+              <p class="font-serif-custom text-3xl font-bold text-red-900">100%</p>
+              <p class="font-mono-custom text-xs text-stone-900/60 mt-1">Fresh Ingredients</p>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <div class="rounded-xl overflow-hidden shadow-md aspect-[4/3]">
+              <img src="assets/dumplings.jpg" alt="Fresh pan seared dumplings" class="w-full h-full object-cover">
+            </div>
+            <div class="rounded-xl overflow-hidden shadow-md aspect-[1/1]">
+              <img src="assets/chicken.jpg" alt="Soy sauce chicken thigh" class="w-full h-full object-cover">
+            </div>
+          </div>
+          <div class="space-y-4 pt-8">
+            <div class="rounded-xl overflow-hidden shadow-md aspect-[1/1]">
+              <img src="assets/chicken_roll.jpg" alt="Deep fried chicken rolls" class="w-full h-full object-cover">
+            </div>
+            <div class="bg-red-900 text-white rounded-xl p-6 flex flex-col justify-between aspect-[4/3] shadow-md font-mono-custom">
+              <span class="text-xs tracking-wider">SPECIALTY</span>
+              <p class="font-serif-custom text-xl font-bold leading-tight">Authentic Dumplings & Congee</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Menu Section -->
+  <section id="menu" class="py-24 bg-amber-50/20">
+    <div class="mx-auto max-w-7xl px-6">
+      
+      <!-- Interactive Controls (Density & Layout) -->
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-12 pb-6 border-b border-red-900/10">
+        <div class="text-left space-y-2">
+          <span class="font-mono-custom text-xs tracking-widest text-red-900 font-bold">OUR MENU</span>
+          <h2 class="font-serif-custom text-4xl font-bold text-stone-900">Choose Your Comfort Food</h2>
+        </div>
+        
+        <!-- UI UX Controls (Comfortable vs Compact) -->
+        <div class="flex items-center space-x-4 bg-white p-1.5 rounded-xl border border-red-900/5 shadow-sm font-mono-custom text-xs">
+          <button id="btn-density-comfortable" onclick="setDensity('comfortable')" class="px-4 py-2 rounded-lg bg-red-900 text-white font-semibold shadow-sm transition cursor-pointer">
+            Comfortable Grid
+          </button>
+          <button id="btn-density-compact" onclick="setDensity('compact')" class="px-4 py-2 rounded-lg text-stone-600 hover:text-red-900 transition cursor-pointer">
+            Compact List
+          </button>
+        </div>
+      </div>
+
+      <!-- Native Accordion categories using <details> -->
+      <div class="space-y-6">
+        
+        <!-- Category 1: Specialties -->
+        <details name="menu-category" open class="rounded-2xl border border-red-900/5 overflow-hidden transition-all duration-300">
+          <summary class="flex justify-between items-center px-8 py-5 cursor-pointer bg-white select-none">
+            <span class="font-serif-custom text-xl md:text-2xl font-bold text-red-950 flex items-center gap-3">
+              🥣 Main Specialties <span class="text-xs font-mono-custom font-normal text-amber-700 bg-amber-100/50 px-2 py-0.5 rounded">Chef Recommended</span>
+            </span>
+            <span class="font-mono-custom text-xs text-red-900 font-bold group-open:hidden">EXPLORE 📂</span>
+          </summary>
+          
+          <div class="p-[var(--menu-padding)] bg-stone-50/50">
+            <!-- Grid containing Items -->
+            <div id="menu-grid" class="grid gap-[var(--menu-gap)] md:grid-cols-2 transition-all duration-300">
+              
+              <!-- Item 1: Congee -->
+              <div class="menu-card bg-white rounded-xl border border-red-900/5 shadow-sm overflow-hidden flex flex-col justify-between group p-6">
+                <div class="flex flex-col md:flex-row gap-6">
+                  <div class="menu-image w-full md:w-36 h-36 rounded-lg overflow-hidden shrink-0">
+                    <img src="assets/congee.jpg" alt="The Classic Congee" class="w-full h-full object-cover group-hover:scale-102 transition duration-500">
+                  </div>
+                  <div class="space-y-3 flex-1">
+                    <div class="flex justify-between items-start">
+                      <h4 class="font-serif-custom text-xl font-bold text-stone-900">The Classic Congee</h4>
+                      <span class="font-mono-custom text-sm font-bold text-red-900 shrink-0">IDR 20k</span>
+                    </div>
+                    <p class="text-xs text-stone-900/70 leading-relaxed">
+                      Silky Cantonese-style congee with shredded chicken, peanuts, cakwe, and caipo.
+                    </p>
+                    
+                    <!-- Branded Options Selector -->
+                    <div class="space-y-2 pt-2">
+                      <p class="font-mono-custom text-[10px] font-bold text-red-900 tracking-wider">ADD-ONS & TOPPINGS</p>
+                      <div class="flex flex-wrap gap-2">
+                        <!-- Custom styled interactive chips -->
+                        <button id="chip-egg" onclick="toggleAddon('egg')" class="px-3 py-1 rounded-full border border-red-900/10 bg-stone-50 hover:bg-red-50 text-[10px] font-mono-custom text-stone-700 transition cursor-pointer">
+                          🥚 Onsen Egg (+5k)
+                        </button>
+                        <button id="chip-chili" onclick="toggleAddon('chili')" class="px-3 py-1 rounded-full border border-red-900/10 bg-stone-50 hover:bg-red-50 text-[10px] font-mono-custom text-stone-700 transition cursor-pointer">
+                          🌶️ Chili Oil
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="pt-4 border-t border-stone-100 mt-4 flex justify-between items-center">
+                  <span class="font-mono-custom text-xs font-semibold text-stone-500">Customize toppings & add</span>
+                  <button onclick="addCongeeToCart()" class="px-4 py-2 bg-red-900 hover:bg-red-800 text-white font-mono-custom text-xs font-semibold rounded-lg transition shadow-sm cursor-pointer flex items-center gap-1.5">
+                    ＋ ADD TO CART
+                  </button>
+                </div>
+              </div>
+
+              <!-- Item 2: Dumplings -->
+              <div class="menu-card bg-white rounded-xl border border-red-900/5 shadow-sm overflow-hidden flex flex-col justify-between group p-6">
+                <div class="flex flex-col md:flex-row gap-6">
+                  <div class="menu-image w-full md:w-36 h-36 rounded-lg overflow-hidden shrink-0">
+                    <img src="assets/dumplings.jpg" alt="Pan-seared Dumplings" class="w-full h-full object-cover group-hover:scale-102 transition duration-500">
+                  </div>
+                  <div class="space-y-3 flex-1">
+                    <div class="flex justify-between items-start">
+                      <h4 class="font-serif-custom text-xl font-bold text-stone-900">Pan-seared Dumplings</h4>
+                      <span class="font-mono-custom text-sm font-bold text-red-900 shrink-0">IDR 20k</span>
+                    </div>
+                    <p class="text-xs text-stone-900/70 leading-relaxed">
+                      Pan-seared chicken and cabbage dumplings drizzled with signature vinaigrette (4 pcs).
+                    </p>
+                  </div>
+                </div>
+                
+                <div class="pt-4 border-t border-stone-100 mt-4 flex justify-between items-center">
+                  <span class="font-mono-custom text-xs font-semibold text-stone-500">Lightly crisped golden skirt</span>
+                  <button onclick="addStandardItem('Dumplings', 20000)" class="px-4 py-2 bg-red-900 hover:bg-red-800 text-white font-mono-custom text-xs font-semibold rounded-lg transition shadow-sm cursor-pointer flex items-center gap-1.5">
+                    ＋ ADD TO CART
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </details>
+
+        <!-- Category 2: Sides & Plates -->
+        <details name="menu-category" open class="rounded-2xl border border-red-900/5 overflow-hidden transition-all duration-300">
+          <summary class="flex justify-between items-center px-8 py-5 cursor-pointer bg-white select-none">
+            <span class="font-serif-custom text-xl md:text-2xl font-bold text-red-955 flex items-center gap-3">
+              🍗 Sides & Protein Platers
+            </span>
+            <span class="font-mono-custom text-xs text-red-900 font-bold group-open:hidden">EXPLORE 📂</span>
+          </summary>
+          
+          <div class="p-[var(--menu-padding)] bg-stone-50/50">
+            <!-- Grid containing Items -->
+            <div id="menu-sides-grid" class="grid gap-[var(--menu-gap)] md:grid-cols-2 transition-all duration-300">
+              
+              <!-- Item 3: Soy-sauce Chicken -->
+              <div class="menu-card bg-white rounded-xl border border-red-900/5 shadow-sm overflow-hidden flex flex-col justify-between group p-6">
+                <div class="flex flex-col md:flex-row gap-6">
+                  <div class="menu-image w-full md:w-36 h-36 rounded-lg overflow-hidden shrink-0">
+                    <img src="assets/chicken.jpg" alt="Soy-sauce Chicken" class="w-full h-full object-cover group-hover:scale-102 transition duration-500">
+                  </div>
+                  <div class="space-y-3 flex-1">
+                    <div class="flex justify-between items-start">
+                      <h4 class="font-serif-custom text-xl font-bold text-stone-900">Soy-sauce Chicken</h4>
+                      <span class="font-mono-custom text-sm font-bold text-red-900 shrink-0">IDR 30k</span>
+                    </div>
+                    <p class="text-xs text-stone-900/70 leading-relaxed">
+                      Chicken thigh cooked in sweet soy sauce, topped with aromatic ginger and garlic bits.
+                    </p>
+                  </div>
+                </div>
+                
+                <div class="pt-4 border-t border-stone-100 mt-4 flex justify-between items-center">
+                  <span class="font-mono-custom text-xs font-semibold text-stone-500">Tender & rich soy glaze</span>
+                  <button onclick="addStandardItem('Soy-sauce Chicken', 30000)" class="px-4 py-2 bg-red-900 hover:bg-red-800 text-white font-mono-custom text-xs font-semibold rounded-lg transition shadow-sm cursor-pointer flex items-center gap-1.5">
+                    ＋ ADD TO CART
+                  </button>
+                </div>
+              </div>
+
+              <!-- Item 4: Deep Fried Chicken Roll -->
+              <div class="menu-card bg-white rounded-xl border border-red-900/5 shadow-sm overflow-hidden flex flex-col justify-between group p-6">
+                <div class="flex flex-col md:flex-row gap-6">
+                  <div class="menu-image w-full md:w-36 h-36 rounded-lg overflow-hidden shrink-0">
+                    <img src="assets/chicken_roll.jpg" alt="Deep Fried Chicken Roll" class="w-full h-full object-cover group-hover:scale-102 transition duration-500">
+                  </div>
+                  <div class="space-y-3 flex-1">
+                    <div class="flex justify-between items-start">
+                      <h4 class="font-serif-custom text-xl font-bold text-stone-900">Deep Fried Chicken Roll</h4>
+                      <span class="font-mono-custom text-sm font-bold text-red-900 shrink-0">IDR 25k</span>
+                    </div>
+                    <p class="text-xs text-stone-900/70 leading-relaxed">
+                      Crispy golden chicken rolls wrapped in tofu skin, neighborhood traditional kekian style (8 pcs).
+                    </p>
+                  </div>
+                </div>
+                
+                <div class="pt-4 border-t border-stone-100 mt-4 flex justify-between items-center">
+                  <span class="font-mono-custom text-xs font-semibold text-stone-500">Crispy outside, soft inside</span>
+                  <button onclick="addStandardItem('Deep Fried Chicken Roll', 25000)" class="px-4 py-2 bg-red-900 hover:bg-red-800 text-white font-mono-custom text-xs font-semibold rounded-lg transition shadow-sm cursor-pointer flex items-center gap-1.5">
+                    ＋ ADD TO CART
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Order Cart Drawer Panel -->
+  <div id="cart-drawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white border-l border-red-100 shadow-2xl translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between">
+    <div class="p-6 overflow-y-auto flex-1">
+      <div class="flex items-center justify-between border-b border-red-100 pb-4 mb-6">
+        <h3 class="font-serif-custom text-2xl font-bold text-red-950">Your Order Estimator</h3>
+        <button id="cart-close-btn" class="text-red-900 hover:text-red-800 font-mono-custom text-sm font-bold cursor-pointer">CLOSE ✕</button>
+      </div>
+
+      <!-- Selected items list -->
+      <div id="cart-items" class="space-y-4">
+        <!-- Empty cart message -->
+        <p id="empty-cart-msg" class="text-center text-stone-950/40 font-mono-custom text-sm py-12">Your order is empty. Add items from the menu to calculate pricing!</p>
+      </div>
+    </div>
+
+    <!-- Pricing Summary Panel -->
+    <div class="p-6 bg-stone-55/30 border-t border-red-100 space-y-4 font-mono-custom">
+      <div class="flex justify-between items-center text-sm text-stone-700">
+        <span>Subtotal</span>
+        <span id="cart-subtotal">IDR 0</span>
+      </div>
+      <div class="flex justify-between items-center text-base text-red-950 font-bold">
+        <span>Estimated Total</span>
+        <span id="cart-total" class="text-red-900">IDR 0</span>
+      </div>
+      
+      <button onclick="openOrderModal()" class="w-full py-4 bg-red-900 hover:bg-red-800 text-white font-semibold rounded-xl text-center shadow-lg transition tracking-wider text-sm cursor-pointer">
+        PREVIEW ORDER SUMMARY
+      </button>
+    </div>
+  </div>
+
+  <!-- Hidden Backdrop for Cart Drawer -->
+  <div id="cart-backdrop" class="fixed inset-0 z-45 bg-black/40 backdrop-blur-sm hidden transition-opacity duration-300"></div>
+
+  <!-- Location and Hours Section -->
+  <section id="location" class="py-24 bg-white border-t border-stone-900/5">
+    <div class="mx-auto max-w-7xl px-6 grid md:grid-cols-2 gap-12 items-center">
+      <div class="space-y-6">
+        <span class="font-mono-custom text-xs tracking-widest text-red-900 font-bold">VISIT US</span>
+        <h2 class="font-serif-custom text-4xl font-bold text-red-950">Bubur Inn Surabaya</h2>
+        <div class="space-y-4 font-mono-custom text-sm text-stone-900/80">
+          <div>
+            <h4 class="font-bold text-red-955 mb-1">📍 LOCATION</h4>
+            <p>G Walk Citraland, Food Arcade Blok CG No. 1-2</p>
+            <p>Surabaya, Jawa Timur, Indonesia</p>
+          </div>
+          <div>
+            <h4 class="font-bold text-red-955 mb-1">🕒 HOURS</h4>
+            <p>Tuesday – Sunday: 11:00 AM – 10:00 PM</p>
+            <p class="text-red-650 font-semibold">Closed on Mondays</p>
+          </div>
+          <div>
+            <h4 class="font-bold text-red-955 mb-1">📞 CONTACT & ORDERS</h4>
+            <p>WhatsApp: +62 812-3456-7890</p>
+            <p>Instagram: @bubur.inn</p>
+          </div>
+        </div>
+      </div>
+      <div class="relative h-96 w-full rounded-2xl overflow-hidden border border-red-50 shadow-xl bg-stone-50">
+        <!-- Interactive Map Mockup -->
+        <div class="absolute inset-0 flex flex-col justify-between p-6 bg-gradient-to-br from-amber-50/90 to-red-100/30">
+          <div class="space-y-2">
+            <span class="bg-red-900 text-white text-[10px] font-mono-custom font-bold px-2 py-1 rounded">MAP LOCATION</span>
+            <h3 class="font-serif-custom text-lg font-bold text-red-950">Citraland G-Walk</h3>
+            <p class="text-xs text-stone-900/80">Food Arcade CG 1-2. Easily accessible with ample parking space.</p>
+          </div>
+          
+          <div class="border-2 border-dashed border-red-300 rounded-xl p-4 bg-white/70 flex flex-col items-center justify-center text-center">
+            <svg class="h-8 w-8 text-red-900 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span class="text-xs font-mono-custom font-bold text-red-950">G Walk Food Arcade, Surabaya</span>
+          </div>
+
+          <a href="https://maps.google.com" target="_blank" class="w-full py-3 bg-white text-center border border-red-200 text-stone-900 font-mono-custom text-xs font-bold rounded-lg shadow-sm hover:bg-stone-50 transition cursor-pointer">
+            OPEN IN GOOGLE MAPS
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-red-950 text-red-100/80 py-12 border-t border-red-900 font-mono-custom text-xs">
+    <div class="mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="text-center md:text-left">
+        <span class="font-serif-custom text-lg font-bold text-white tracking-wider">BUBUR INN</span>
+        <p class="mt-1 text-[11px] text-red-200/50">Copyright &copy; 2026 Bubur Inn Surabaya. All rights reserved.</p>
+      </div>
+      <div class="flex space-x-6">
+        <a href="#about" class="hover:text-white transition">STORY</a>
+        <a href="#menu" class="hover:text-white transition">MENU</a>
+        <a href="#location" class="hover:text-white transition">LOCATION</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Native Order Detail Dialog -->
+  <dialog id="order-dialog" class="rounded-2xl bg-white p-6 max-w-lg w-[calc(100%-2rem)] border border-red-100 shadow-2xl overflow-hidden focus:outline-none">
+    <div class="space-y-6">
+      <div class="flex items-center justify-between border-b border-red-100 pb-3">
+        <h3 class="font-serif-custom text-2xl font-bold text-red-950">Order Summary</h3>
+        <button onclick="closeOrderModal()" class="text-red-900 hover:text-red-800 font-mono-custom font-bold text-sm cursor-pointer">✕</button>
+      </div>
+
+      <div class="space-y-4">
+        <p class="text-xs text-stone-900/60 font-mono-custom">Please review your items below before proceeding to order via WhatsApp or GoFood.</p>
+        
+        <div id="order-summary-items" class="space-y-3 font-mono-custom text-xs border-y border-red-50 py-4 max-h-60 overflow-y-auto">
+          <!-- Summary items go here -->
+        </div>
+
+        <div class="flex justify-between items-center font-mono-custom text-sm font-bold text-red-950">
+          <span>Estimated Total:</span>
+          <span id="order-summary-total">IDR 0</span>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="grid grid-cols-3 gap-3 pt-4 font-mono-custom text-[10px] font-bold">
+        <button onclick="closeOrderModal()" class="py-3 border border-red-200 hover:bg-stone-50 text-red-950 rounded-xl transition cursor-pointer">
+          CANCEL & EDIT
+        </button>
+        <a href="https://gofood.co.id/jakarta/restaurant/ad5e4167-ccca-4417-ae7c-ed39204f7c6d?as=gmaps" target="_blank" class="py-3 bg-red-900 hover:bg-red-800 text-white rounded-xl transition flex justify-center items-center gap-1.5 cursor-pointer shadow-md text-center">
+          🛵 GOFOOD
+        </a>
+        <button onclick="sendWhatsAppOrder()" class="py-3 bg-green-700 hover:bg-green-600 text-white rounded-xl transition flex justify-center items-center gap-1.5 cursor-pointer shadow-md">
+          <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.964 9.964 0 001.333 4.993L2 22l5.13-1.347a9.921 9.921 0 004.882 1.28h.005c5.502 0 9.984-4.478 9.99-9.988a9.983 9.983 0 00-9.995-9.945zm5.72 13.91c-.244.685-1.42 1.348-1.947 1.44-.476.085-1.097.155-3.23-.728-2.73-1.13-4.47-3.905-4.607-4.088-.135-.183-1.102-1.467-1.102-2.798 0-1.332.686-1.986.932-2.247.243-.26.536-.328.714-.328.18 0 .36 0 .518.008.163.007.382-.06.598.463.22.535.75 1.83.816 1.964.066.133.11.29.02.47-.09.18-.136.29-.27.452-.135.161-.282.359-.404.482-.136.136-.277.284-.12.553.156.27.693 1.14 1.488 1.848.795.707 1.464.925 1.67.1.206-.827.42-.924.582-.99.162-.067.324-.034.486.046.163.08 1.023.483 1.2.568.175.086.293.129.336.204.043.076.043.435-.202 1.12z"/>
+          </svg>
+          WHATSAPP
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- JavaScript logic -->
+  <script>
+    // Cart and Options state
+    let cart = [];
+    let selectedAddons = {
+      egg: false,
+      chili: false
+    };
+
+    // Toggle custom styled toppings chips
+    function toggleAddon(type) {
+      selectedAddons[type] = !selectedAddons[type];
+      const chip = document.getElementById(`chip-${type}`);
+      if (selectedAddons[type]) {
+        chip.classList.remove('bg-stone-50', 'text-stone-700', 'border-red-900/10');
+        chip.classList.add('bg-red-900', 'text-white', 'border-red-900');
+      } else {
+        chip.classList.add('bg-stone-50', 'text-stone-700', 'border-red-900/10');
+        chip.classList.remove('bg-red-900', 'text-white', 'border-red-900');
+      }
+    }
+
+    // Toggle density mode between comfortable and compact list view
+    function setDensity(mode) {
+      const container = document.getElementById('menu');
+      const menuGrid = document.getElementById('menu-grid');
+      const menuSidesGrid = document.getElementById('menu-sides-grid');
+      const btnComfortable = document.getElementById('btn-density-comfortable');
+      const btnCompact = document.getElementById('btn-density-compact');
+
+      if (mode === 'compact') {
+        container.classList.add('density-compact');
+        btnCompact.classList.add('bg-red-900', 'text-white', 'font-semibold', 'shadow-sm');
+        btnCompact.classList.remove('text-stone-600');
+        btnComfortable.classList.remove('bg-red-900', 'text-white', 'font-semibold', 'shadow-sm');
+        btnComfortable.classList.add('text-stone-600');
+
+        // Apply compact layout to menu cards (hide images, change structures to row list)
+        document.querySelectorAll('.menu-card').forEach(card => {
+          card.querySelector('.menu-image').classList.add('hidden');
+        });
+      } else {
+        container.classList.remove('density-compact');
+        btnComfortable.classList.add('bg-red-900', 'text-white', 'font-semibold', 'shadow-sm');
+        btnComfortable.classList.remove('text-stone-600');
+        btnCompact.classList.remove('bg-red-900', 'text-white', 'font-semibold', 'shadow-sm');
+        btnCompact.classList.add('text-stone-600');
+
+        document.querySelectorAll('.menu-card').forEach(card => {
+          card.querySelector('.menu-image').classList.remove('hidden');
+        });
+      }
+    }
+    
+    // Toggle cart drawer UI
+    const cartToggleBtn = document.getElementById('cart-toggle-btn');
+    const cartCloseBtn = document.getElementById('cart-close-btn');
+    const cartDrawer = document.getElementById('cart-drawer');
+    const cartBackdrop = document.getElementById('cart-backdrop');
+
+    function openCart() {
+      cartDrawer.classList.remove('translate-x-full');
+      cartBackdrop.classList.remove('hidden');
+    }
+
+    function closeCart() {
+      cartDrawer.classList.add('translate-x-full');
+      cartBackdrop.classList.add('hidden');
+    }
+
+    cartToggleBtn.addEventListener('click', openCart);
+    cartCloseBtn.addEventListener('click', closeCart);
+    cartBackdrop.addEventListener('click', closeCart);
+
+    // Add classic congee with options
+    function addCongeeToCart() {
+      const hasOnsenEgg = selectedAddons.egg;
+      const hasChiliOil = selectedAddons.chili;
+      
+      let basePrice = 20000;
+      let finalPrice = basePrice;
+      let optionsList = [];
+
+      if (hasOnsenEgg) {
+        finalPrice += 5000;
+        optionsList.push('Onsen Egg (+5k)');
+      }
+      if (hasChiliOil) {
+        optionsList.push('Chili Oil');
+      }
+
+      const itemKey = `Congee-${hasOnsenEgg ? 'egg' : 'noegg'}-${hasChiliOil ? 'chili' : 'nochili'}`;
+      
+      const existing = cart.find(item => item.key === itemKey);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({
+          key: itemKey,
+          name: 'The Classic Congee',
+          price: finalPrice,
+          quantity: 1,
+          options: optionsList
+        });
+      }
+
+      // Reset options checkboxes and chips
+      if (selectedAddons.egg) toggleAddon('egg');
+      if (selectedAddons.chili) toggleAddon('chili');
+
+      updateCartUI();
+      openCart();
+    }
+
+    // Add simple items
+    function addStandardItem(name, price) {
+      const existing = cart.find(item => item.name === name && (!item.options || item.options.length === 0));
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({
+          key: name,
+          name: name,
+          price: price,
+          quantity: 1,
+          options: []
+        });
+      }
+      updateCartUI();
+      openCart();
+    }
+
+    function changeQuantity(key, delta) {
+      const idx = cart.findIndex(item => item.key === key);
+      if (idx !== -1) {
+        cart[idx].quantity += delta;
+        if (cart[idx].quantity <= 0) {
+          cart.splice(idx, 1);
+        }
+      }
+      updateCartUI();
+    }
+
+    // Update UI numbers and item lists
+    function updateCartUI() {
+      const cartItemsContainer = document.getElementById('cart-items');
+      const emptyCartMsg = document.getElementById('empty-cart-msg');
+      const cartCount = document.getElementById('cart-count');
+      const cartSubtotal = document.getElementById('cart-subtotal');
+      const cartTotal = document.getElementById('cart-total');
+
+      let totalCount = 0;
+      let totalPrice = 0;
+
+      cartItemsContainer.innerHTML = '';
+
+      if (cart.length === 0) {
+        emptyCartMsg.style.display = 'block';
+        cartItemsContainer.appendChild(emptyCartMsg);
+      } else {
+        emptyCartMsg.style.display = 'none';
+
+        cart.forEach(item => {
+          totalCount += item.quantity;
+          totalPrice += (item.price * item.quantity);
+
+          const itemEl = document.createElement('div');
+          itemEl.className = 'flex justify-between items-start bg-stone-50/50 p-4 rounded-xl border border-red-100 font-mono-custom text-xs';
+          
+          let optionsHtml = '';
+          if (item.options && item.options.length > 0) {
+            optionsHtml = `<p class="text-[10px] text-red-800/80 mt-1 italic">${item.options.join(', ')}</p>`;
+          }
+
+          itemEl.innerHTML = `
+            <div class="space-y-1">
+              <h4 class="font-bold text-stone-900">${item.name}</h4>
+              <p class="text-stone-900/60">IDR ${item.price.toLocaleString('id-ID')}</p>
+              ${optionsHtml}
+            </div>
+            <div class="flex items-center space-x-2">
+              <button onclick="changeQuantity('${item.key}', -1)" class="w-6 h-6 rounded-md bg-white border border-red-200 text-stone-900 hover:bg-stone-50 transition flex items-center justify-center font-bold cursor-pointer">-</button>
+              <span class="w-6 text-center font-bold text-stone-900">${item.quantity}</span>
+              <button onclick="changeQuantity('${item.key}', 1)" class="w-6 h-6 rounded-md bg-white border border-red-200 text-stone-900 hover:bg-stone-50 transition flex items-center justify-center font-bold cursor-pointer">+</button>
+            </div>
+          `;
+          cartItemsContainer.appendChild(itemEl);
+        });
+      }
+
+      cartCount.textContent = totalCount;
+      cartSubtotal.textContent = `IDR ${totalPrice.toLocaleString('id-ID')}`;
+      cartTotal.textContent = `IDR ${totalPrice.toLocaleString('id-ID')}`;
+    }
+
+    // Modal Control
+    const orderDialog = document.getElementById('order-dialog');
+
+    function openOrderModal() {
+      if (cart.length === 0) {
+        alert('Keranjang belanja Anda kosong. Silakan tambahkan menu terlebih dahulu!');
+        return;
+      }
+      
+      const summaryItems = document.getElementById('order-summary-items');
+      const summaryTotal = document.getElementById('order-summary-total');
+      
+      summaryItems.innerHTML = '';
+      let totalPrice = 0;
+
+      cart.forEach(item => {
+        totalPrice += (item.price * item.quantity);
+        const itemRow = document.createElement('div');
+        itemRow.className = 'flex justify-between items-center border-b border-orange-50 pb-2';
+        
+        let opts = item.options && item.options.length > 0 ? ` (${item.options.join(', ')})` : '';
+        itemRow.innerHTML = `
+          <div>
+            <span class="font-bold text-stone-900">${item.quantity}x</span> ${item.name}${opts}
+          </div>
+          <span class="text-stone-900/70">IDR ${(item.price * item.quantity).toLocaleString('id-ID')}</span>
+        `;
+        summaryItems.appendChild(itemRow);
+      });
+
+      summaryTotal.textContent = `IDR ${totalPrice.toLocaleString('id-ID')}`;
+      orderDialog.showModal();
+    }
+
+    function closeOrderModal() {
+      orderDialog.close();
+    }
+
+    // WhatsApp Integration
+    function sendWhatsAppOrder() {
+      if (cart.length === 0) return;
+
+      let message = 'Halo Bubur Inn, saya ingin memesan:\n\n';
+      let totalPrice = 0;
+
+      cart.forEach((item, index) => {
+        totalPrice += (item.price * item.quantity);
+        let opts = item.options && item.options.length > 0 ? ` [${item.options.join(', ')}]` : '';
+        message += `${index + 1}. ${item.quantity}x ${item.name}${opts} - IDR ${(item.price * item.quantity).toLocaleString('id-ID')}\n`;
+      });
+
+      message += `\n*Total Estimasi:* IDR ${totalPrice.toLocaleString('id-ID')}\n\n`;
+      message += 'Mohon info ketersediaan dan total ongkir ke G Walk Citraland. Terima kasih!';
+
+      const encodedMessage = encodeURIComponent(message);
+      const waLink = `https://wa.me/6281234567890?text=${encodedMessage}`;
+      
+      window.open(waLink, '_blank');
+    }
+  </script>
+</body>
+</html>
